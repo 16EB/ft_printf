@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:50:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/14 20:32:05 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/14 22:07:55 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_format_info
 
 /*
 **
-** Standard C Library functions
+** Standard C Library functions (libft.c)
 **
 */
 char	*ft_strchr(const char *s, int c);
@@ -55,7 +55,7 @@ int		ft_isdigit(int c);
 
 /*
 **
-** Flag manipulate utility functions
+** Flag manipulate utility functions (util_flag.c)
 **
 */
 void	set_flag(int *ptr, int index);
@@ -64,9 +64,16 @@ int		has_flag(int flags, int index);
 
 /*
 **
-** Formatting functions
+** Formatting function (format.c)
 **
 */
 void	process_format(char const **pfmt, va_list *ap, t_format_info *info);
+
+/*
+**
+** Main function (ftprintf.c)
+**
+*/
+int		ft_printf(char const *format, ...);
 
 #endif

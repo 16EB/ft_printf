@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/14 20:41:23 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/14 21:55:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,24 +66,26 @@ static char	get_value(char const **pfmt, va_list *ap, t_variant *value)
 {
 	char	type;
 
-	type = *(*pfmt)++;
-	if (type == 'c')
-		value->c = va_arg(*ap, char);
-	else if (type == 's')
-		value->s = va_arg(*ap, char *);
-	else if (type == 'p')
-		value->p = va_arg(*ap, void *);
-	else if (type == 'd' || type == 'i')
-		value->n = va_arg(*ap, int);
-	else if (type == 'u' || type == 'x' || type == 'X')
-		value->u = va_arg(*ap, unsigned int);
-	else if (type == '%')
+	type = *(*pfmt);
+	if (type)
 	{
-		type = 'c';
-		value->c = '%';
+		(*pfmt)++;
+		if (type == 'c')
+			value->c = va_arg(*ap, char);
+		else if (type == 's')
+			value->s = va_arg(*ap, char *);
+		else if (type == 'p')
+			value->p = va_arg(*ap, void *);
+		else if (type == 'd' || type == 'i')
+			value->n = va_arg(*ap, int);
+		else if (type == 'u' || type == 'x' || type == 'X')
+			value->u = va_arg(*ap, unsigned int);
+		else if (type == '%')
+		{
+			type = 'c';
+			value->c = '%';
+		}
 	}
-	else
-		type = 0;
 	return (type);
 }
 
