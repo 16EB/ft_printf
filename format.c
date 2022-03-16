@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/14 21:55:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/16 16:31:29 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,6 @@ static int	load_number(char const **pfmt)
 	return (number);
 }
 
-static int	try_load_precision(char const **pfmt, int *result)
-{
-	*result = 0;
-	if (**pfmt == '.')
-	{
-		(*pfmt)++;
-		*result = load_number(pfmt);
-		return (1);
-	}
-	return (0);
-}
-
 static char	get_value(char const **pfmt, va_list *ap, t_variant *value)
 {
 	char	type;
@@ -71,7 +59,7 @@ static char	get_value(char const **pfmt, va_list *ap, t_variant *value)
 	{
 		(*pfmt)++;
 		if (type == 'c')
-			value->c = va_arg(*ap, char);
+			value->c = va_arg(*ap, int);
 		else if (type == 's')
 			value->s = va_arg(*ap, char *);
 		else if (type == 'p')
@@ -93,6 +81,12 @@ void	process_format(char const **pfmt, va_list *ap, t_format_info *info)
 {
 	info->flags = load_flag(pfmt);
 	info->width = load_number(pfmt);
-	info->has_precision = try_load_precision(pfmt, &info->precision);
+	if (**pfmt == '.')
+	{
+		(*pfmt)++;
+		info->precision = load_number(pfmt);
+	}
+	else
+		info->precision = -1;
 	info->type = get_value(pfmt, ap, &info->value);
 }

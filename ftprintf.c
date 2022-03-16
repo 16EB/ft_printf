@@ -6,19 +6,18 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/14 22:24:54 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/16 21:41:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
 
 #include <stdarg.h>
-#include <unistd.h>
 
-static int	write_general_string(char **pfmt)
+static int	write_general_string(const char **pfmt)
 {
-	char *const	format = *pfmt;
-	int			i;
+	const char *const	format = *pfmt;
+	int					i;
 
 	i = 0;
 	while (format[i] && format[i] != '%')
@@ -26,24 +25,39 @@ static int	write_general_string(char **pfmt)
 	if (i == 0)
 		return (0);
 	*pfmt += i;
-	return (write(STDOUT_FILENO, format, i));
+	return (print(format, i));
 }
 
+/*
+** 
+**	if (has_flag(info->flags, PLUS))
+**		reset_flag(&info->flags, SPACE);
+**	if (has_flag(info->flags, MINUS))
+**		reset_flag(&info->flags, ZERO);
+*/
 static int	write_formatted_value(t_format_info *info)
 {
-	//TODO: make correct function call it
 	if (info->type == 'c')
-		return (1);
+		return (print_string(info, &info->value.c, sizeof(info->value.c)));
 	else if (info->type == 's')
-		return (2);
-	else if (info->type == 'p')
-		return (3);
-	else if (info->type == 'd' || info->type == 'i')
-		return (4);
-	else if (info->type == 'u')
-		return (5);
-	else if (info->type == 'x' || info->type == 'X')
-		return (7);
+		return (print_string(info, info->value.s, ft_strlen(info->value.s)));
+	else if (info->type == 'p' || info->type == 'x' || info->type == 'X')
+	{
+		if (info->type == 'p' || has_flag(info->flags, HASH))
+			set_flag(&info->flags, AFTER_PREFIX);
+		if (info->type == 'X')
+			set_flag(&info->flags, AFTER_UPPER);
+		set_flag(&info->flags, AFTER_UNSIGNED);
+		return (print_integer(info, info->value.l, 16));
+	}
+	else if (info->type == 'd' || info->type == 'i' || info->type == 'u')
+	{
+		if (info->value.n < 0)
+			set_flag(&info->flags, AFTER_NEGATIVE);
+		if (info->type == 'u')
+			set_flag(&info->flags, AFTER_UNSIGNED);
+		return (print_integer(info, info->value.l, 10));
+	}
 	return (0);
 }
 
@@ -55,6 +69,7 @@ int	ft_printf(char const *format, ...)
 
 	result = 0;
 	va_start(ap, format);
+	ft_memset(&info, 0, sizeof(info));
 	while (*format)
 	{
 		result += write_general_string(&format);
