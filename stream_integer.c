@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 20:53:02 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/16 22:04:47 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 13:17:37 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	print_auto(const char *str, int len, int fake)
 	return (print(str, len));
 }
 
-static const char	*get_prefix(int flags, int radix)
+static const char	*get_prefix(int flags)
 {
-	if (radix == 16)
+	if (has_flag(flags, RADIX_HEX))
 	{
 		if (has_flag(flags, AFTER_UPPER))
 			return ("0X");
@@ -34,7 +34,7 @@ static const char	*get_prefix(int flags, int radix)
 	return (NULL);
 }
 
-int	prepare_integer(int flags, int radix, int fake)
+int	prepare_integer(int flags, int fake)
 {
 	int			result;
 
@@ -49,17 +49,17 @@ int	prepare_integer(int flags, int radix, int fake)
 			result += print_auto(" ", -1, fake);
 	}
 	if (has_flag(flags, AFTER_PREFIX))
-		result += print_auto(get_prefix(flags, radix), -1, fake);
+		result += print_auto(get_prefix(flags), -1, fake);
 	return (result);
 }
 
-static const char	*get_charset(int flags, int radix)
+static const char	*get_charset(int flags)
 {
-	if (radix == 10)
+	if (has_flag(flags, RADIX_DEC))
 	{
 		return ("0123456789");
 	}
-	else if (radix == 16)
+	else if (has_flag(flags, RADIX_HEX))
 	{
 		if (has_flag(flags, AFTER_UPPER))
 			return ("0123456789ABCDEF");
@@ -68,16 +68,18 @@ static const char	*get_charset(int flags, int radix)
 	return (NULL);
 }
 
-int	integer_write(unsigned long number, int flags, int radix, int fake)
+int	integer_write(unsigned long number, int n, int flags, int fake)
 {
-	const char *const	charset = get_charset(flags, radix);
+	const char *const	charset = get_charset(flags);
+	const int			radix = ft_strlen(charset);
 	int					result;
 
-	if (!number)
-		return (print_auto(&charset[0], 1, fake));
 	result = 0;
-	if (number >= (unsigned long)radix)
-		result += integer_write(number / radix, flags, radix, fake);
-	result += print_auto(&charset[number % radix], 1, fake);
+	if (n != 0 || number != 0)
+	{
+		if (number >= (unsigned long)radix)
+			result += integer_write(number / radix, n - (n > 0), flags, fake);
+		result += print_auto(&charset[number % radix], 1, fake);
+	}
 	return (result);
 }

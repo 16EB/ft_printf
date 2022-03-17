@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:27:01 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/16 21:57:36 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 13:18:24 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,36 @@ int	print_string(t_format_info *info, char *buf, int n)
 	return (result);
 }
 
+static void	init_radix_flag(int *ptr, int radix)
+{
+	if (radix == 10)
+		set_flag(ptr, RADIX_DEC);
+	else
+		reset_flag(ptr, RADIX_DEC);
+	if (radix == 16)
+		set_flag(ptr, RADIX_HEX);
+	else
+		reset_flag(ptr, RADIX_HEX);
+}
+
 int	print_integer(t_format_info *info, long number, int radix)
 {
 	const int	left = !has_flag(info->flags, MINUS);
 	const int	zero = has_flag(info->flags, ZERO) && info->precision < 0;
-	const int	n = integer_write(number, info->flags, radix, 1);
-	int			count;
+	int			n;
 	int			result;
 
-	result = prepare_integer(info->flags, radix, 1);
+	init_radix_flag(&info->flags, radix);
+	result = prepare_integer(info->flags, 1);
+	n = integer_write(number, info->precision, info->flags, 1);
 	if (left && !zero)
 		result = print_pad(' ', info->width - (result + n));
-	result = prepare_integer(info->flags, radix, 0);
-	count = 0;
+	else
+		result = 0;
+	result += prepare_integer(info->flags, 0);
 	if (left && zero)
-		count = info->width - (result + n);
-	if (info->precision >= 0 && n < info->precision)
-		count = info->precision - n;
-	if (count > 0)
-		result += print_pad('0', count);
-	result += integer_write(number, info->flags, radix, 0);
+		result += print_pad('0', info->width - (result + n));
+	result += integer_write(number, info->precision, info->flags, 0);
 	if (!left)
 		result += print_pad(' ', info->width - result);
 	return (result);

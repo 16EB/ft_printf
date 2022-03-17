@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:50:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/16 21:57:56 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 13:12:27 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ typedef enum e_flag
 	AFTER_UPPER,
 	AFTER_PREFIX,
 	AFTER_UNSIGNED,
-	AFTER_NEGATIVE
+	AFTER_NEGATIVE,
+	RADIX_DEC,
+	RADIX_HEX
 }	t_flag;
 
 typedef union u_variant
@@ -88,9 +90,8 @@ int		print_integer(t_format_info *info, long number, int radix);
 ** Integer output stream function (stream_integer.c)
 **
 */
-int		prepare_integer(int flags, int radix, int fake);
-int		integer_length(unsigned long number, int radix);
-int		integer_write(unsigned long number, int flags, int radix, int fake);
+int		prepare_integer(int flags, int fake);
+int		integer_write(unsigned long number, int n, int flags, int fake);
 
 /*
 **
