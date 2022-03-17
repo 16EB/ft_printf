@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 20:53:02 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 13:17:37 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 14:13:13 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int	integer_write(unsigned long number, int n, int flags, int fake)
 	int					result;
 
 	result = 0;
-	if (n != 0 || number != 0)
+	if (number != 0 || n != 0)
 	{
-		if (number >= (unsigned long)radix)
+		if (number >= (unsigned long)radix || n > 0)
 			result += integer_write(number / radix, n - (n > 0), flags, fake);
 		result += print_auto(&charset[number % radix], 1, fake);
 	}
