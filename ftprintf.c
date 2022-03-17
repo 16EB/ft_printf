@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 14:30:05 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 15:55:27 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	write_formatted_value(t_format_info *info)
 		return (print_string(info, info->value.s, ft_strlen(info->value.s)));
 	else if (info->type == 'p' || info->type == 'x' || info->type == 'X')
 	{
-		if (info->type == 'p' || has_flag(info->flags, HASH))
+		if (info->type == 'p' || (has_flag(info->flags, HASH) && info->value.u))
 			set_flag(&info->flags, AFTER_PREFIX);
 		if (info->type == 'X')
 			set_flag(&info->flags, AFTER_UPPER);

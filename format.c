@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 14:23:44 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 15:56:32 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,6 @@ void	process_format(char const **pfmt, va_list *ap, t_format_info *info)
 		info->type = 'c';
 		info->value.c = '%';
 	}
+	if (info->type == 'c')
+		info->precision = -1;
 }
