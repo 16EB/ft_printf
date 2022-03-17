@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:27:01 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 14:37:45 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 14:42:46 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	print(const char *buf, size_t n)
 
 static int	print_pad(char c, int width, int current)
 {
-	char		buf[sizeof(long)];
-	const int	count = width - current;
-	int			i;
-	int			result;
+	char			buf[4 * sizeof(long)];
+	const int		count = width - current;
+	unsigned long	i;
+	int				result;
 
 	result = 0;
 	if (count > 0)
