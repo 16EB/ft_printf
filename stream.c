@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:27:01 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 14:42:46 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 16:33:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ static int	print_pad(char c, int width, int current)
 int	print_string(t_format_info *info, char *buf, int n)
 {
 	const int	left = !has_flag(info->flags, MINUS);
+	const int	zero = has_flag(info->flags, ZERO);
 	int			result;
 
 	result = 0;
 	if (info->precision >= 0 && n > info->precision)
 		n = info->precision;
 	if (left)
-		result += print_pad(' ', info->width, result + n);
+		result += print_pad(" 0"[zero], info->width, result + n);
 	result += print(buf, n);
 	if (!left)
 		result += print_pad(' ', info->width, result);
@@ -66,12 +67,8 @@ static void	init_radix_flag(int *ptr, int radix)
 {
 	if (radix == 10)
 		set_flag(ptr, RADIX_DEC);
-	else
-		reset_flag(ptr, RADIX_DEC);
 	if (radix == 16)
 		set_flag(ptr, RADIX_HEX);
-	else
-		reset_flag(ptr, RADIX_HEX);
 }
 
 int	print_integer(t_format_info *info, long number, int radix)

@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 15:56:32 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 16:23:21 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,21 @@ static int	load_flag(char const **pfmt)
 	return (flags);
 }
 
-static int	load_number(char const **pfmt)
+static int	load_number(char const **pfmt, va_list *ap, int *flags_ptr)
 {
 	int	number;
 
+	if (**pfmt == '*')
+	{
+		(*pfmt)++;
+		number = va_arg(*ap, int);
+		if (flags_ptr && number < 0)
+		{
+			set_flag(flags_ptr, MINUS);
+			number = -number;
+		}
+		return (number);
+	}
 	number = 0;
 	while (ft_isdigit(**pfmt))
 	{
@@ -81,11 +92,11 @@ static char	get_value(char const **pfmt, va_list *ap, t_variant *value)
 void	process_format(char const **pfmt, va_list *ap, t_format_info *info)
 {
 	info->flags = load_flag(pfmt);
-	info->width = load_number(pfmt);
+	info->width = load_number(pfmt, ap, &info->flags);
 	if (**pfmt == '.')
 	{
 		(*pfmt)++;
-		info->precision = load_number(pfmt);
+		info->precision = load_number(pfmt, ap, NULL);
 	}
 	else
 		info->precision = -1;
