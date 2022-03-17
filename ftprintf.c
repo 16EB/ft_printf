@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/16 21:41:24 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 12:05:42 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,13 @@ static int	write_formatted_value(t_format_info *info)
 	}
 	else if (info->type == 'd' || info->type == 'i' || info->type == 'u')
 	{
-		if (info->value.n < 0)
-			set_flag(&info->flags, AFTER_NEGATIVE);
 		if (info->type == 'u')
 			set_flag(&info->flags, AFTER_UNSIGNED);
+		else if (info->value.n < 0)
+		{
+			set_flag(&info->flags, AFTER_NEGATIVE);
+			info->value.n = -info->value.n;
+		}
 		return (print_integer(info, info->value.l, 10));
 	}
 	return (0);
@@ -69,13 +72,13 @@ int	ft_printf(char const *format, ...)
 
 	result = 0;
 	va_start(ap, format);
-	ft_memset(&info, 0, sizeof(info));
 	while (*format)
 	{
 		result += write_general_string(&format);
 		if (*format == '%')
 		{
 			format++;
+			ft_memset(&info, 0, sizeof(info));
 			process_format(&format, &ap, &info);
 			result += write_formatted_value(&info);
 		}
