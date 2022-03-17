@@ -6,7 +6,7 @@
 #    By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/17 12:08:12 by jkong             #+#    #+#              #
-#    Updated: 2022/03/17 12:08:52 by jkong            ###   ########.fr        #
+#    Updated: 2022/03/17 17:27:35 by jkong            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,15 +21,12 @@ ARFLAGS = crs
 NAME = libftprintf.a
 INCS = libftprintf.h
 SRCS = format.c ftprintf.c libft.c stream.c stream_integer.c util_flag.c
-SRCS_BONUS = 
 OBJS = $(SRCS:.c=.o)
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: $(NAME)
 
 clean:
 	$(RM) $(OBJS)
-	$(RM) $(OBJS_BONUS)
 
 fclean: clean
 	$(RM) $(NAME)
@@ -42,9 +39,6 @@ re: fclean all
 $(NAME): $(OBJS)
 	$(AR) $(ARFLAGS) $@ $?
 
-bonus: $(OBJS_BONUS)
-	$(AR) $(ARFLAGS) $(NAME) $?
+bonus: all
 
 $(OBJS): $(INCS)
-
-$(OBJS_BONUS): $(INCS)

@@ -6,13 +6,11 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 16:23:21 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 17:25:57 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-
-#include <stdarg.h>
 
 static int	load_flag(char const **pfmt)
 {

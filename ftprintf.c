@@ -6,13 +6,11 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 15:55:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 17:25:53 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
-
-#include <stdarg.h>
 
 static int	write_general_string(const char **pfmt)
 {
