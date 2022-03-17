@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:50:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 13:12:27 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 14:38:22 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_format_info
 */
 int		ft_isdigit(int c);
 size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
 void	*ft_memset(void *b, int c, size_t len);
 
 /*
