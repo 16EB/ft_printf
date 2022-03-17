@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 12:22:39 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 14:23:44 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	load_flag(char const **pfmt)
 	int	flags;
 
 	flags = 0;
-	while (ft_strchr("-0# +", **pfmt))
+	while (**pfmt)
 	{
 		if (**pfmt == '-')
 			set_flag(&flags, MINUS);
@@ -31,6 +31,8 @@ static int	load_flag(char const **pfmt)
 			set_flag(&flags, SPACE);
 		else if (**pfmt == '+')
 			set_flag(&flags, PLUS);
+		else
+			break ;
 		(*pfmt)++;
 	}
 	return (flags);

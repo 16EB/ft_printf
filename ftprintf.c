@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 12:05:42 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/17 14:30:05 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,6 @@ static int	write_general_string(const char **pfmt)
 	return (print(format, i));
 }
 
-/*
-** 
-**	if (has_flag(info->flags, PLUS))
-**		reset_flag(&info->flags, SPACE);
-**	if (has_flag(info->flags, MINUS))
-**		reset_flag(&info->flags, ZERO);
-*/
 static int	write_formatted_value(t_format_info *info)
 {
 	if (info->type == 'c')
