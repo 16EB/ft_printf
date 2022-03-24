@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:29:50 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 17:25:57 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/24 12:58:06 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	load_number(char const **pfmt, va_list *ap, int *flags_ptr)
 	{
 		(*pfmt)++;
 		number = va_arg(*ap, int);
-		if (flags_ptr && number < 0)
+		if (flags_ptr && number < 0 && - number > 0)
 		{
 			set_flag(flags_ptr, MINUS);
 			number = -number;

@@ -6,11 +6,22 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 19:01:47 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 17:25:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/24 12:57:51 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libftprintf.h"
+
+int	try_inc(int *target, int operand)
+{
+	if (operand < 0)
+	{
+		*target = operand;
+		return (0);
+	}
+	*target += operand;
+	return (1);
+}
 
 static int	write_general_string(const char **pfmt)
 {
@@ -65,13 +76,15 @@ int	ft_printf(char const *format, ...)
 	va_start(ap, format);
 	while (*format)
 	{
-		result += write_general_string(&format);
+		if (!try_inc(&result, write_general_string(&format)))
+			break ;
 		if (*format == '%')
 		{
 			format++;
 			ft_memset(&info, 0, sizeof(info));
 			process_format(&format, &ap, &info);
-			result += write_formatted_value(&info);
+			if (!try_inc(&result, write_formatted_value(&info)))
+				break ;
 		}
 	}
 	va_end(ap);

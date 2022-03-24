@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 18:50:39 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/17 17:09:53 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/24 12:57:34 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int		integer_write(unsigned long number, int n, int flags, int fake);
 ** Main function (ftprintf.c)
 **
 */
+int		try_inc(int *target, int operand);
 int		ft_printf(char const *format, ...);
 
 #endif
